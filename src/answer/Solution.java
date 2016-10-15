@@ -702,7 +702,7 @@ public class Solution {
  }
  
  
- TreeNode current = null;  //¶¨ÒåÒ»¸öÈ«¾Ö±äÁ¿
+ TreeNode current = null;  //å®šä¹‰ä¸€ä¸ªå…¨å±€å˜é‡
  public void flatten(TreeNode root) {
      if(root == null) return;
      flateenHelper(root);
@@ -1164,7 +1164,7 @@ public class Solution {
  }
  
  public int countBitDiff(int m, int n){
-		// ÇëÔÚ´ËÌí¼Ó´úÂë
+		// è¯·åœ¨æ­¤æ·»åŠ ä»£ç 
 		int dif = m ^ n;
 		int i = 1;
 		int count = 0;
@@ -1878,20 +1878,20 @@ public class Solution {
       return ret;
   }
   
-  // µİ¹é»ØËİ8»Êºó£¬¹Ø¼ü¼ÇÂ¼ÏÂµ½´ïÁËÄÄÒ»ĞĞÁË  
+  // é€’å½’å›æº¯8çš‡åï¼Œå…³é”®è®°å½•ä¸‹åˆ°è¾¾äº†å“ªä¸€è¡Œäº†  
   public void placeQueen(int[] queenList, int row, int n, ArrayList<String[]> ret){  
-      // Base Case, ÒÑ¾­Íê³ÉÈÎÎñÁË  
+      // Base Case, å·²ç»å®Œæˆä»»åŠ¡äº†  
       if(row == n){  
           StringBuilder[] sol = new StringBuilder[n];  
              
-          // ¶ÔÊı×éÄÚÃ¿Ò»¸ö¶ÔÏó¶¼Òªnew³öÆä¶ÔÏó  
+          // å¯¹æ•°ç»„å†…æ¯ä¸€ä¸ªå¯¹è±¡éƒ½è¦newå‡ºå…¶å¯¹è±¡  
           for(int i=0; i<n; i++){  
               sol[i] = new StringBuilder();  
               for(int j=0; j<n; j++){  
                   sol[i].append('.');  
               }  
           }  
-          // ÔÚÏàÓ¦µÄµØ·½·ÅÖÃqueen  
+          // åœ¨ç›¸åº”çš„åœ°æ–¹æ”¾ç½®queen  
           for(int i=0; i<n; i++){  
               sol[i].setCharAt(queenList[i], 'Q');  
           }  
@@ -1903,8 +1903,8 @@ public class Solution {
           return;  
       }  
          
-      // ¿ªÊ¼ÕâÒ»ĞĞµÄ²éÕÒ  
-      // ±éÀúµÚrowĞĞµÄËùÓĞÁĞ£¬²âÊÔÄÄÒ»¸öÎ»ÖÃÊÇ°²È«µÄ  
+      // å¼€å§‹è¿™ä¸€è¡Œçš„æŸ¥æ‰¾  
+      // éå†ç¬¬rowè¡Œçš„æ‰€æœ‰åˆ—ï¼Œæµ‹è¯•å“ªä¸€ä¸ªä½ç½®æ˜¯å®‰å…¨çš„  
       for(int col=0; col<n; col++){  
           if(isSafe(queenList, row, col)){  
               queenList[row] = col;  
@@ -1913,21 +1913,21 @@ public class Solution {
       }  
   }
   
-  // ÅĞ¶ÏÊÇ·ñ×ø±ê(row,col)µÄÎ»ÖÃÊÇ°²È«µÄ£¨¼ì²éĞĞ£¬ÁĞ£¬Õı·´¶Ô½ÇÏß£©  
-  // queenListÀïÃæ´æ·ÅĞĞ£¬ÁĞ×ø±êpair£¬¼´queenList[row] = col  
+  // åˆ¤æ–­æ˜¯å¦åæ ‡(row,col)çš„ä½ç½®æ˜¯å®‰å…¨çš„ï¼ˆæ£€æŸ¥è¡Œï¼Œåˆ—ï¼Œæ­£åå¯¹è§’çº¿ï¼‰  
+  // queenListé‡Œé¢å­˜æ”¾è¡Œï¼Œåˆ—åæ ‡pairï¼Œå³queenList[row] = col  
   public boolean isSafe(int[] queenList, int row, int col){  
       for(int preRow=0; preRow<row; preRow++){  
           int preCol = queenList[preRow];  
-          if(preRow == row){      // ÀíÂÛÉÏ²»±Ø¼ì²é£¬ÒòÎªpreRowÊÇ×ÜÊÇĞ¡ÓÚrowµÄ  
+          if(preRow == row){      // ç†è®ºä¸Šä¸å¿…æ£€æŸ¥ï¼Œå› ä¸ºpreRowæ˜¯æ€»æ˜¯å°äºrowçš„  
               return false;  
           }  
-          if(preCol == col){          // ¼ì²éÊÇ·ñÔÚÍ¬Ò»ÁĞ  
+          if(preCol == col){          // æ£€æŸ¥æ˜¯å¦åœ¨åŒä¸€åˆ—  
               return false;  
           }  
-          if(row-preRow == col-preCol){       // ·´¶Ô½ÇÏß  
+          if(row-preRow == col-preCol){       // åå¯¹è§’çº¿  
               return false;  
           }  
-          if(row-preRow == preCol-col){       // Õı¶Ô½ÇÏß  
+          if(row-preRow == preCol-col){       // æ­£å¯¹è§’çº¿  
               return false;  
           }  
       }  
@@ -1941,16 +1941,16 @@ public class Solution {
       return nQueensCount;
   }
   
-// µİ¹é»ØËİ8»Êºó£¬¹Ø¼ü¼ÇÂ¼ÏÂµ½´ïÁËÄÄÒ»ĞĞÁË  
+// é€’å½’å›æº¯8çš‡åï¼Œå…³é”®è®°å½•ä¸‹åˆ°è¾¾äº†å“ªä¸€è¡Œäº†  
   public void placeQueen(int[] queenList, int row, int n){  
-      // Base Case, ÒÑ¾­Íê³ÉÈÎÎñÁË  
+      // Base Case, å·²ç»å®Œæˆä»»åŠ¡äº†  
       if(row == n){  
       	nQueensCount++;
           return;  
       }  
          
-      // ¿ªÊ¼ÕâÒ»ĞĞµÄ²éÕÒ  
-      // ±éÀúµÚrowĞĞµÄËùÓĞÁĞ£¬²âÊÔÄÄÒ»¸öÎ»ÖÃÊÇ°²È«µÄ  
+      // å¼€å§‹è¿™ä¸€è¡Œçš„æŸ¥æ‰¾  
+      // éå†ç¬¬rowè¡Œçš„æ‰€æœ‰åˆ—ï¼Œæµ‹è¯•å“ªä¸€ä¸ªä½ç½®æ˜¯å®‰å…¨çš„  
       for(int col=0; col<n; col++){  
           if(isSafe(queenList, row, col)){  
               queenList[row] = col;  
@@ -2203,9 +2203,9 @@ public class Solution {
   
   public void moveZeroes(int[] nums) {
       int pZero = 0, pNonZero = 0;
-      while(pZero < nums.length && nums[pZero] != 0) pZero++;	//µÚÒ»¸ö0
+      while(pZero < nums.length && nums[pZero] != 0) pZero++;	//ç¬¬ä¸€ä¸ª0
       pNonZero = pZero + 1;
-      while(pNonZero < nums.length && nums[pNonZero] == 0) pNonZero++; //0ºóÃæµÄµÚÒ»¸ö·Ç0
+      while(pNonZero < nums.length && nums[pNonZero] == 0) pNonZero++; //0åé¢çš„ç¬¬ä¸€ä¸ªé0
       while(pZero < nums.length && pNonZero < nums.length){
       	nums[pZero] = nums[pNonZero];
       	nums[pNonZero] = 0;
@@ -2321,7 +2321,7 @@ public class Solution {
   }
   
   public boolean containsNearbyDuplicate(int[] nums, int k) {
-      Set<Integer> set = new HashSet<Integer>();		//³¤¶ÈÎªk+1µÄ»¬¶¯´°
+      Set<Integer> set = new HashSet<Integer>();		//é•¿åº¦ä¸ºk+1çš„æ»‘åŠ¨çª—
       for(int i = 0; i < nums.length; i++){
           if(i > k) set.remove(nums[i-k-1]);
           if(!set.add(nums[i])) return true;
