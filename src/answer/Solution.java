@@ -1308,19 +1308,19 @@ public class Solution {
   }
   
   public ListNode reverseList(ListNode head) {
-      ListNode newHead = null;
-      while(head != null){
-          ListNode next = head.next;
-          head.next = newHead;
-          newHead = head;
-          head = next;
-      }
-      return newHead;
- }
+		ListNode newHead = null;
+		while(head != null){
+			ListNode next = head.next;
+			head.next = newHead;
+			newHead = head;
+			head = next;
+		}
+		return newHead;
+	}
   
   public int[] twoSum(int[] numbers, int target) {
       int[] result = new int[2];
-      Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+      Map<Integer, Integer> map = new HashMap<>();
       for (int i = 0; i < numbers.length; i++) {
           if (map.containsKey(target - numbers[i])) {
               result[1] = i + 1;
@@ -2565,9 +2565,47 @@ public class Solution {
 	    count[rem-1] = (min==Integer.MAX_VALUE) ? -1 : min;
 	    return count[rem-1];
 	}
+
+	public int[] productExceptSelf(int[] nums) {
+		int n = nums.length;
+		int[] res = new int[n];
+		res[0] = 1;
+		for (int i = 1; i < n; i++) {
+			res[i] = res[i - 1] * nums[i - 1];
+		}
+		int right = 1;
+		for (int i = n - 1; i >= 0; i--) {
+			res[i] *= right;
+			right *= nums[i];
+		}
+		return res;
+	}
+
+	public boolean isAnagram(String s, String t) {
+		Map<Character, Integer> map = new HashMap<>();
+		if(s.length() != t.length()) return false;
+		for(int i=0; i<s.length(); i++){
+			Character c = s.charAt(i);
+			if(map.containsKey(c)){
+				map.put(c, map.get(c) + 1);
+			}else{
+				map.put(c, 1);
+			}
+		}
+		for(int j=0; j<t.length(); j++){
+			Character d = t.charAt(j);
+			if(!map.containsKey(d)) return false;
+			else{
+				if(map.get(d) == 0) return false;
+				else map.put(d, map.get(d) - 1);
+			}
+		}
+		return true;
+	}
   
 	public static void main(String[] args){
 		Solution s = new Solution();
-		System.out.println(s.coinChange(new int[]{186,419,83,408},6249));
+		boolean res = s.isAnagram("anagram","nagaram");
+		System.out.println(res);
 	}
 }
