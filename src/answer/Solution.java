@@ -2646,9 +2646,25 @@ public class Solution {
 				num /= i;
 		return num == 1;
 	}
+
+	public boolean isPerfectSquare(int num) {
+		int lo = 1, hi = num;
+		while(lo <= hi){
+			int mid = lo + (hi - lo)/2;
+			long result = (long)mid * (long)mid;	//use long because of overflow
+			if(result < num){
+				lo = mid + 1;
+			}else if(result > num){
+				hi = mid - 1;
+			}else{
+				return true;
+			}
+		}
+		return false;
+	}
   
 	public static void main(String[] args){
 		Solution s = new Solution();
-		System.out.println(s.isUgly(14));
+		System.out.println(s.isPerfectSquare(2147483647));
 	}
 }
