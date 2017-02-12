@@ -2727,9 +2727,47 @@ public class Solution {
 		return c;
 	}
 
-  
+	public boolean isPowerOfFour(int num) {
+		return num > 0 && (num&(num-1)) == 0 && (num & 0x55555555) != 0;
+		//0x55555555 is to get rid of those power of 2 but not power of 4
+		//so that the single 1 bit always appears at the odd position
+	}
+
+	/**
+	 * dp[i][j]: the longest palindromic subsequence's length of substring(i, j)
+	 * State transition:
+	 * dp[i][j] = dp[i+1][j-1] + 2 if s.charAt(i) == s.charAt(j)
+	 * otherwise, dp[i][j] = Math.max(dp[i+1][j], dp[i][j-1])
+	 * Initialization: dp[i][i] = 1
+	 */
+	public int longestPalindromeSubseq(String s) {
+		int[][] dp = new int[s.length()][s.length()];
+
+		for (int i = s.length() - 1; i >= 0; i--) {
+			dp[i][i] = 1;
+			for (int j = i+1; j < s.length(); j++) {
+				if (s.charAt(i) == s.charAt(j)) {
+					dp[i][j] = dp[i+1][j-1] + 2;
+				} else {
+					dp[i][j] = Math.max(dp[i+1][j], dp[i][j-1]);
+				}
+			}
+		}
+		return dp[0][s.length()-1];
+	}
+
+	public boolean isValidSerialization(String preorder) {
+		String[] nodes = preorder.split(",");
+		int diff = 1;
+		for (String node: nodes) {
+			if (--diff < 0) return false;
+			if (!node.equals("#")) diff += 2;
+		}
+		return diff == 0;
+	}
+
 	public static void main(String[] args){
 		Solution s = new Solution();
-		System.out.println(s.intersection(new int[]{1, 2}, new int[]{1,1}));
+		System.out.println(s.isValidSerialization("9,3,4,#,#,1,#,#,2,#,6,#,#"));
 	}
 }
