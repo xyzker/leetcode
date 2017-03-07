@@ -2693,23 +2693,96 @@ public class Solution {
 		return count == numCourses;
 	}
 
-	public ListNode removeElements(ListNode head, int val) {
-		ListNode dummy = new ListNode(0);
-		dummy.next = head;
-
-		ListNode pre = dummy;
-		ListNode cur = head;
-		while(cur != null){
-			if(cur.val == val){
-				pre.next = cur.next;
-				cur = pre.next;
-			}else{
-				pre = cur;
-				cur = cur.next;
+	public int[] intersection(int[] nums1, int[] nums2) {
+		Set<Integer> set = new HashSet<>();
+		Set<Integer> intersect = new HashSet<>();
+		for (int i = 0; i < nums1.length; i++) {
+			set.add(nums1[i]);
+		}
+		for (int i = 0; i < nums2.length; i++) {
+			if (set.contains(nums2[i])) {
+				intersect.add(nums2[i]);
 			}
 		}
-		return dummy.next;
+		int[] result = new int[intersect.size()];
+		int i = 0;
+		for (Integer num : intersect) {
+			result[i++] = num;
+		}
+		return result;
 	}
+
+	public int integerReplacement(int n) {
+		int c = 0;
+		while (n != 1) {
+			if ((n & 1) == 0) {
+				n >>>= 1;
+			} else if (n == 3 || ((n >>> 1) & 1) == 0) {
+				--n;
+			} else {
+				++n;
+			}
+			++c;
+		}
+		return c;
+	}
+
+	public boolean isPowerOfFour(int num) {
+		return num > 0 && (num&(num-1)) == 0 && (num & 0x55555555) != 0;
+		//0x55555555 is to get rid of those power of 2 but not power of 4
+		//so that the single 1 bit always appears at the odd position
+	}
+
+	/**
+	 * dp[i][j]: the longest palindromic subsequence's length of substring(i, j)
+	 * State transition:
+	 * dp[i][j] = dp[i+1][j-1] + 2 if s.charAt(i) == s.charAt(j)
+	 * otherwise, dp[i][j] = Math.max(dp[i+1][j], dp[i][j-1])
+	 * Initialization: dp[i][i] = 1
+	 */
+	public int longestPalindromeSubseq(String s) {
+		int[][] dp = new int[s.length()][s.length()];
+
+		for (int i = s.length() - 1; i >= 0; i--) {
+			dp[i][i] = 1;
+			for (int j = i+1; j < s.length(); j++) {
+				if (s.charAt(i) == s.charAt(j)) {
+					dp[i][j] = dp[i+1][j-1] + 2;
+				} else {
+					dp[i][j] = Math.max(dp[i+1][j], dp[i][j-1]);
+				}
+			}
+		}
+		return dp[0][s.length()-1];
+	}
+
+	public boolean isValidSerialization(String preorder) {
+		String[] nodes = preorder.split(",");
+		int diff = 1;
+		for (String node: nodes) {
+			if (--diff < 0) return false;
+			if (!node.equals("#")) diff += 2;
+		}
+		return diff == 0;
+	}
+
+    public ListNode removeElements(ListNode head, int val) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+
+        ListNode pre = dummy;
+        ListNode cur = head;
+        while(cur != null){
+            if(cur.val == val){
+                pre.next = cur.next;
+                cur = pre.next;
+            }else{
+                pre = cur;
+                cur = cur.next;
+            }
+        }
+        return dummy.next;
+    }
 
 	public static void main(String[] args){
 		Solution s = new Solution();
