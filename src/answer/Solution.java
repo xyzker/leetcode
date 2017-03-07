@@ -2662,9 +2662,58 @@ public class Solution {
 		}
 		return false;
 	}
-  
+
+	public boolean canFinish(int numCourses, int[][] prerequisites) {
+		int[][] matrix = new int[numCourses][numCourses]; // i -> j
+		int[] indegree = new int[numCourses];
+
+		for (int i=0; i<prerequisites.length; i++) {
+			int ready = prerequisites[i][0];
+			int pre = prerequisites[i][1];
+			if (matrix[pre][ready] == 0)
+				indegree[ready]++; //duplicate case
+			matrix[pre][ready] = 1;
+		}
+
+		int count = 0;
+		Queue<Integer> queue = new LinkedList();
+		for (int i=0; i<indegree.length; i++) {
+			if (indegree[i] == 0) queue.offer(i);
+		}
+		while (!queue.isEmpty()) {
+			int course = queue.poll();
+			count++;
+			for (int i=0; i<numCourses; i++) {
+				if (matrix[course][i] != 0) {
+					if (--indegree[i] == 0)
+						queue.offer(i);
+				}
+			}
+		}
+		return count == numCourses;
+	}
+
+	public ListNode removeElements(ListNode head, int val) {
+		ListNode dummy = new ListNode(0);
+		dummy.next = head;
+
+		ListNode pre = dummy;
+		ListNode cur = head;
+		while(cur != null){
+			if(cur.val == val){
+				pre.next = cur.next;
+				cur = pre.next;
+			}else{
+				pre = cur;
+				cur = cur.next;
+			}
+		}
+		return dummy.next;
+	}
+
 	public static void main(String[] args){
 		Solution s = new Solution();
-		System.out.println(s.isPerfectSquare(2147483647));
+		int[][] pre = {{1,0}};
+		System.out.println(s.canFinish(2, pre));
 	}
 }
