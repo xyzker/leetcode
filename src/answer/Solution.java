@@ -2915,8 +2915,6 @@ public class Solution {
 			result=Math.max(result, max+overlap+1);
 		}
 		return result;
-
-
 	}
 
 	/**
@@ -2929,11 +2927,31 @@ public class Solution {
 
 		if (b==0) return a;
 		else return generateGCD(b,a%b);
+	}
 
+	public int[] countBits(int num) {
+		int[] f = new int[num + 1];
+		for (int i=1; i<=num; i++) f[i] = f[i >> 1] + (i & 1);
+		return f;
+	}
+
+	public String toHex(int num) {
+		if(num == 0) return "0";
+		StringBuilder sb = new StringBuilder();
+		for(int i=7; i>=0; i--){
+			int tmp = (num >>> (i<<2)) & 0xf;
+			if(tmp == 0 && sb.length()==0) continue;
+			if(tmp < 10){
+				sb.append(tmp);
+			}else{
+				sb.append((char)('a' + tmp - 10));
+			}
+		}
+		return sb.toString();
 	}
 
 	public static void main(String[] args){
 		Solution s = new Solution();
-		System.out.println(s.lastRemaining(9));
+		System.out.println(s.toHex(-1));
 	}
 }
