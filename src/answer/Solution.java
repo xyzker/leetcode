@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -2821,7 +2822,6 @@ public class Solution {
 	}
 
 	private int guess(int num){
-		//TODO
 		return 0;
 	}
 
@@ -2956,6 +2956,8 @@ public class Solution {
 
 		int[][] t = new int[k + 1][len];
 		for (int i = 1; i <= k; i++) {
+			//tmpMax means the maximum profit of just doing at most i-1 transactions,
+			// using at most first j-1 prices, and buying the stock at price[j] - this is used for the next loop.
 			int tmpMax =  -prices[0];
 			for (int j = 1; j < len; j++) {
 				t[i][j] = Math.max(t[i][j - 1], prices[j] + tmpMax);
@@ -2974,8 +2976,38 @@ public class Solution {
 		return profit;
 	}
 
+	public String fractionToDecimal(int numerator, int denominator) {
+		StringBuilder resStr = new StringBuilder();
+		int res = numerator/denominator;
+		int remain = numerator%denominator;
+        resStr.append(res);
+		boolean isRecurring = false;
+		if(remain != 0){
+			resStr.append(".");
+			Map<Integer, Boolean> dic = new LinkedHashMap<>();
+			while(remain != 0){
+				remain *= 10;
+				res = remain/denominator;
+				remain = remain%denominator;
+				if(dic.get(res) != null) {
+					isRecurring = true;
+					break;
+				}
+				else dic.put(res, true);
+			}
+			int finalRes = res;
+			boolean finalRecur = isRecurring;
+			dic.forEach((k, v) -> {
+				if(finalRecur && k == finalRes) resStr.append("(");
+				resStr.append(k);
+			});
+			if(isRecurring) resStr.append(")");
+		}
+		return resStr.toString();
+	}
+
 	public static void main(String[] args){
 		Solution s = new Solution();
-		System.out.println(s.toHex(-1));
+		System.out.println(s.fractionToDecimal(1, 2));
 	}
 }
