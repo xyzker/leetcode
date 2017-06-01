@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -3066,37 +3065,45 @@ public class Solution {
     }
 
 	public String fractionToDecimal(int numerator, int denominator) {
-		StringBuilder resStr = new StringBuilder();
-		int res = numerator/denominator;
-		int remain = numerator%denominator;
-        resStr.append(res);
-		boolean isRecurring = false;
-		if(remain != 0){
-			resStr.append(".");
-			Map<Integer, Boolean> dic = new LinkedHashMap<>();
-			while(remain != 0){
-				remain *= 10;
-				res = remain/denominator;
-				remain = remain%denominator;
-				if(dic.get(res) != null) {
-					isRecurring = true;
-					break;
-				}
-				else dic.put(res, true);
-			}
-			int finalRes = res;
-			boolean finalRecur = isRecurring;
-			dic.forEach((k, v) -> {
-				if(finalRecur && k == finalRes) resStr.append("(");
-				resStr.append(k);
-			});
-			if(isRecurring) resStr.append(")");
+		if (numerator == 0) {
+			return "0";
 		}
-		return resStr.toString();
+		StringBuilder res = new StringBuilder();
+		// "+" or "-"
+		res.append(((numerator > 0) ^ (denominator > 0)) ? "-" : "");
+		long num = Math.abs((long)numerator);
+		long den = Math.abs((long)denominator);
+
+		// integral part
+		res.append(num / den);
+		num %= den;
+		if (num == 0) {
+			return res.toString();
+		}
+
+		// fractional part
+		res.append(".");
+		HashMap<Long, Integer> map = new HashMap<Long, Integer>();
+		map.put(num, res.length());
+		while (num != 0) {
+			num *= 10;
+			res.append(num / den);
+			num %= den;
+			if (map.containsKey(num)) {
+				int index = map.get(num);
+				res.insert(index, "(");
+				res.append(")");
+				break;
+			}
+			else {
+				map.put(num, res.length());
+			}
+		}
+		return res.toString();
 	}
 
 	public static void main(String[] args){
 		Solution s = new Solution();
-		System.out.println(s.fractionToDecimal(1, 2));
+		System.out.println(s.fractionToDecimal(1, 333));
 	}
 }
