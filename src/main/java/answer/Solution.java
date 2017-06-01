@@ -2967,7 +2967,6 @@ public class Solution {
 		return t[k][len - 1];
 	}
 
-
 	private int quickSolve(int[] prices) {
 		int len = prices.length, profit = 0;
 		for (int i = 1; i < len; i++)
@@ -2975,6 +2974,96 @@ public class Solution {
 			if (prices[i] > prices[i - 1]) profit += prices[i] - prices[i - 1];
 		return profit;
 	}
+
+	public int strongPasswordChecker(String s) {
+
+		if(s.length()<2) return 6-s.length();
+
+		//Initialize the states, including current ending character(end), existence of lowercase letter(lower), uppercase letter(upper), digit(digit) and number of replicates for ending character(end_rep)
+		char end = s.charAt(0);
+		boolean upper = end>='A'&&end<='Z', lower = end>='a'&&end<='z', digit = end>='0'&&end<='9';
+
+		//Also initialize the number of modification for repeated characters, total number needed for eliminate all consequnce 3 same character by replacement(change), and potential maximun operation of deleting characters(delete). Note delete[0] means maximum number of reduce 1 replacement operation by 1 deletion operation, delete[1] means maximun number of reduce 1 replacement by 2 deletion operation, delete[2] is no use here.
+		int end_rep = 1, change = 0;
+		int[] delete = new int[3];
+
+		for(int i = 1;i<s.length();++i){
+			if(s.charAt(i)==end) ++end_rep;
+			else{
+				change+=end_rep/3;
+				if(end_rep/3>0) ++delete[end_rep%3];
+				//updating the states
+				end = s.charAt(i);
+				upper = upper||end>='A'&&end<='Z';
+				lower = lower||end>='a'&&end<='z';
+				digit = digit||end>='0'&&end<='9';
+				end_rep = 1;
+			}
+		}
+		change+=end_rep/3;
+		if(end_rep/3>0) ++delete[end_rep%3];
+
+		//The number of replcement needed for missing of specific character(lower/upper/digit)
+		int check_req = (upper?0:1)+(lower?0:1)+(digit?0:1);
+
+		if(s.length()>20){
+			int del = s.length()-20;
+
+			//Reduce the number of replacement operation by deletion
+			if(del<=delete[0]) change-=del;
+			else if(del-delete[0]<=2*delete[1]) change-=delete[0]+(del-delete[0])/2;
+			else change-=delete[0]+delete[1]+(del-delete[0]-2*delete[1])/3;
+
+			return del+Math.max(check_req,change);
+		}
+		else return Math.max(6-s.length(), Math.max(check_req, change));
+	}
+
+	public boolean detectCapitalUse(String word) {
+		int cnt = 0;
+		for(char c: word.toCharArray()) if('Z' - c >= 0) cnt++;
+		return ((cnt==0 || cnt==word.length()) || (cnt==1 && 'Z' - word.charAt(0)>=0));
+	}
+
+    public int maximumGap(int[] num) {
+        if (num == null || num.length < 2)
+            return 0;
+        // get the max and min value of the array
+        int min = num[0];
+        int max = num[0];
+        for (int i:num) {
+            min = Math.min(min, i);
+            max = Math.max(max, i);
+        }
+        // the minimum possibale gap, ceiling of the integer division
+        int gap = (int)Math.ceil((double)(max - min)/(num.length - 1));
+        int[] bucketsMIN = new int[num.length - 1]; // store the min value in that bucket
+        int[] bucketsMAX = new int[num.length - 1]; // store the max value in that bucket
+        Arrays.fill(bucketsMIN, Integer.MAX_VALUE);
+        Arrays.fill(bucketsMAX, Integer.MIN_VALUE);
+        // put numbers into buckets
+        for (int i:num) {
+            if (i == min || i == max)
+                continue;
+            int idx = (i - min) / gap; // index of the right position in the buckets
+            bucketsMIN[idx] = Math.min(i, bucketsMIN[idx]);
+            bucketsMAX[idx] = Math.max(i, bucketsMAX[idx]);
+        }
+        // scan the buckets for the max gap
+        int maxGap = Integer.MIN_VALUE;
+        int previous = min;
+        for (int i = 0; i < num.length - 1; i++) {
+            if (bucketsMIN[i] == Integer.MAX_VALUE && bucketsMAX[i] == Integer.MIN_VALUE)
+                // empty bucket
+                continue;
+            // min value minus the previous value is the current gap
+            maxGap = Math.max(maxGap, bucketsMIN[i] - previous);
+            // update previous bucket value
+            previous = bucketsMAX[i];
+        }
+        maxGap = Math.max(maxGap, max - previous); // updata the final max value gap
+        return maxGap;
+    }
 
 	public String fractionToDecimal(int numerator, int denominator) {
 		StringBuilder resStr = new StringBuilder();
