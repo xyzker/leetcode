@@ -3102,8 +3102,39 @@ public class Solution {
 		return res.toString();
 	}
 
+	public int kthSmallest(TreeNode root, int k) {
+		int count = countNodes2(root.left);
+		if (k <= count) {
+			return kthSmallest(root.left, k);
+		} else if (k > count + 1) {
+			return kthSmallest(root.right, k-1-count); // 1 is counted as current node
+		}
+
+		return root.val;
+	}
+
+	public int countNodes2(TreeNode n) {
+		if (n == null) return 0;
+
+		return 1 + countNodes2(n.left) + countNodes2(n.right);
+	}
+
+	public int lengthOfLIS(int[] nums) {
+		int[] dp = new int[nums.length];
+		int len = 0;
+
+		for(int x : nums) {
+			int i = Arrays.binarySearch(dp, 0, len, x);
+			if(i < 0) i = -(i + 1);
+			dp[i] = x;
+			if(i == len) len++;
+		}
+
+		return len;
+	}
+
 	public static void main(String[] args){
 		Solution s = new Solution();
-		System.out.println(s.fractionToDecimal(1, 333));
+		System.out.println(s.lengthOfLIS(new int[]{4,10,4,3,8,9}));
 	}
 }
