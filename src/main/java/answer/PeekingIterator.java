@@ -3,7 +3,7 @@ package answer;
 import java.util.Iterator;
 
 /**
- * Created by hasee on 2017/3/12.
+ * Created by kexi on 2017/3/12.
  */
 // Java Iterator interface reference:
 // https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html
