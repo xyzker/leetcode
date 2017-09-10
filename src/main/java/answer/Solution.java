@@ -3230,6 +3230,49 @@ public class Solution {
 		return 0;
 	}
 
+	public String predictPartyVictory(String senate) {
+		Queue<Integer> q1 = new LinkedList<>(), q2 = new LinkedList<>();
+		int n = senate.length();
+		for(int i = 0; i<n; i++){
+			if(senate.charAt(i) == 'R')q1.add(i);
+			else q2.add(i);
+		}
+		while(!q1.isEmpty() && !q2.isEmpty()){
+			int r_index = q1.poll(), d_index = q2.poll();
+			if(r_index < d_index)q1.add(r_index + n);
+			else q2.add(d_index + n);
+		}
+		return (q1.size() > q2.size())? "Radiant" : "Dire";
+	}
+
+	public ListNode addTwoNumbers2(ListNode l1, ListNode l2) {
+		Stack<Integer> s1 = new Stack<>();
+		Stack<Integer> s2 = new Stack<>();
+
+		while(l1 != null) {
+			s1.push(l1.val);
+			l1 = l1.next;
+		}
+		while(l2 != null) {
+			s2.push(l2.val);
+			l2 = l2.next;
+		}
+
+		int sum = 0;
+		ListNode list = new ListNode(0);
+		while (!s1.empty() || !s2.empty()) {
+			if (!s1.empty()) sum += s1.pop();
+			if (!s2.empty()) sum += s2.pop();
+			list.val = sum % 10;
+			ListNode head = new ListNode(sum / 10);
+			head.next = list;
+			list = head;
+			sum /= 10;
+		}
+
+		return list.val == 0 ? list.next : list;
+	}
+
 	public static void main(String[] args){
 		Solution s = new Solution();
 		/*int[][] board = {{0,0,0,0,0},{0,0,1,0,0},{0,0,1,0,0},{0,0,1,0,0},{0,0,0,0,0}};
