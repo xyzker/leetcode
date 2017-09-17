@@ -3291,14 +3291,43 @@ public class Solution {
 			wrapList.add(subList);
 		}
 		return wrapList;
-
 	}
+
+	public int wiggleMaxLength(int[] nums) {
+		if (nums.length == 0 || nums.length == 1) {
+			return nums.length;
+		}
+		int k = 0;
+		while (k < nums.length - 1 && nums[k] == nums[k + 1]) {  //Skips all the same numbers from series beginning eg 5, 5, 5, 1
+			k++;
+		}
+		if (k == nums.length - 1) {
+			return 1;
+		}
+		int result = 2;     // This will track the result of result array
+		boolean smallReq = nums[k] < nums[k + 1];       //To check series starting pattern
+		for (int i = k + 1; i < nums.length - 1; i++) {
+			if (smallReq && nums[i + 1] < nums[i]) {
+				nums[result] = nums[i + 1];
+				result++;
+				smallReq = !smallReq;    //Toggle the requirement from small to big number
+			} else {
+				if (!smallReq && nums[i + 1] > nums[i]) {
+					nums[result] = nums[i + 1];
+					result++;
+					smallReq = !smallReq;    //Toggle the requirement from big to small number
+				}
+			}
+		}
+		return result;
+	}
+
 
 	public static void main(String[] args){
 		Solution s = new Solution();
 		/*int[][] board = {{0,0,0,0,0},{0,0,1,0,0},{0,0,1,0,0},{0,0,1,0,0},{0,0,0,0,0}};
 		s.gameOfLife(board);*/
-		System.out.println(s.hIndex(new int[]{1,2,2}));
+		System.out.println(s.wiggleMaxLength(new int[]{2,1,4,5,6,3,3,4,8,4}));
 
 	}
 }
