@@ -3322,12 +3322,31 @@ public class Solution {
 		return result;
 	}
 
+	public void rotate(int[] nums, int k) {
+		k %= nums.length;
+		reverse(nums, 0, nums.length - 1);
+		reverse(nums, 0, k - 1);
+		reverse(nums, k, nums.length - 1);
+	}
+
+	private void reverse(int[] nums, int start, int end) {
+		while (start < end) {
+			int temp = nums[start];
+			nums[start] = nums[end];
+			nums[end] = temp;
+			start++;
+			end--;
+		}
+	}
 
 	public static void main(String[] args){
 		Solution s = new Solution();
 		/*int[][] board = {{0,0,0,0,0},{0,0,1,0,0},{0,0,1,0,0},{0,0,1,0,0},{0,0,0,0,0}};
 		s.gameOfLife(board);*/
-		System.out.println(s.wiggleMaxLength(new int[]{2,1,4,5,6,3,3,4,8,4}));
-
+		int[] nums = {-1};
+		s.rotate(nums, 2);
+		for(int i: nums){
+			System.out.println(i);
+		}
 	}
 }
