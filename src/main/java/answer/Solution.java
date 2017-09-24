@@ -3339,14 +3339,26 @@ public class Solution {
 		}
 	}
 
+	public int islandPerimeter(int[][] grid) {
+		int islands = 0, neighbours = 0;
+
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				if (grid[i][j] == 1) {
+					islands++; // count islands
+					if (i < grid.length - 1 && grid[i + 1][j] == 1) neighbours++; // count down neighbours
+					if (j < grid[i].length - 1 && grid[i][j + 1] == 1) neighbours++; // count right neighbours
+				}
+			}
+		}
+
+		return islands * 4 - neighbours * 2;
+	}
+
 	public static void main(String[] args){
 		Solution s = new Solution();
-		/*int[][] board = {{0,0,0,0,0},{0,0,1,0,0},{0,0,1,0,0},{0,0,1,0,0},{0,0,0,0,0}};
-		s.gameOfLife(board);*/
-		int[] nums = {-1};
-		s.rotate(nums, 2);
-		for(int i: nums){
-			System.out.println(i);
-		}
+		//int[][] nums = {{0,1,0,0}, {1,1,1,0}, {0,1,0,0}, {1,1,0,0}};
+		int[][] nums = {{1,1,1}, {1,0,1}};
+		System.out.println(s.islandPerimeter(nums));
 	}
 }
