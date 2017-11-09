@@ -3474,10 +3474,31 @@ public class Solution {
 		return a;
 	}
 
+	public int maximumSwap(int num) {
+		char[] digits = Integer.toString(num).toCharArray();
+
+		int[] buckets = new int[10];
+		for (int i = 0; i < digits.length; i++) {
+			buckets[digits[i] - '0'] = i;
+		}
+
+		for (int i = 0; i < digits.length; i++) {
+			for (int k = 9; k > digits[i] - '0'; k--) {
+				if (buckets[k] > i) {
+					char tmp = digits[i];
+					digits[i] = digits[buckets[k]];
+					digits[buckets[k]] = tmp;
+					return Integer.valueOf(new String(digits));
+				}
+			}
+		}
+
+		return num;
+	}
+
 	public static void main(String[] args){
 		Solution s = new Solution();
 		//int[][] nums = {{0,1,0,0}, {1,1,1,0}, {0,1,0,0}, {1,1,0,0}};
-		int a=2, b=3;
-		System.out.println(s.getSum(a,b));
+		System.out.println(s.maximumSwap(98368));
 	}
 }
