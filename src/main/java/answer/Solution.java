@@ -3496,6 +3496,16 @@ public class Solution {
 		return num;
 	}
 
+	public int minMoves(int[] nums) {
+		int min = Integer.MAX_VALUE;
+		int sum = 0;
+		for(int i : nums){
+			min = Math.min(min, i);
+			sum += i;
+		}
+		return sum - min * nums.length;
+	}
+
 	public static void main(String[] args){
 		Solution s = new Solution();
 		//int[][] nums = {{0,1,0,0}, {1,1,1,0}, {0,1,0,0}, {1,1,0,0}};
