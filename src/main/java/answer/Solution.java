@@ -3555,9 +3555,40 @@ public class Solution {
 		return result;
 	}
 
+	public int maxSumAfterPartitioning(int[] arr, int k) {
+		int n = arr.length;
+		int[] res = new int[n + 1];
+		res[0] = 0;
+		for (int i = 1; i <= n ; i++) {
+			int maxSum = 0;
+			for (int j = 1; j <= k && j <= i; j++) {
+				int maxValue = 0;
+				for (int m = 1; m <= j; m++) {
+					maxValue = Math.max(maxValue, arr[i-m]);
+				}
+				maxSum = Math.max(maxSum, res[i-j] + maxValue * j);
+			}
+			res[i] = maxSum;
+		}
+		return res[n];
+	}
+
+	public int minTimeToVisitAllPoints(int[][] points) {
+		int time = 0;
+		for (int i=0; i<points.length-1; i++) {
+			int[] current = points[i];
+			int[] next = points[i+1];
+			int xLength = Math.abs(current[0] - next[0]);
+			int yLength = Math.abs(current[1] - next[1]);
+			int addTime = Math.max(xLength, yLength);
+			time += addTime;
+		}
+		return time;
+	}
+
 	public static void main(String[] args){
 		Solution s = new Solution();
 		//int[][] nums = {{0,1,0,0}, {1,1,1,0}, {0,1,0,0}, {1,1,0,0}};
-		System.out.println(s.findUnsortedSubarray(new int[]{2, 6, 4, 8, 10, 9, 15}));
+		System.out.println(s.minTimeToVisitAllPoints(new int[][]{{3,2},{-2,2}}));
 	}
 }
