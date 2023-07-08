@@ -3641,8 +3641,15 @@ public class Solution {
 	}
 
 	public static void main(String[] args){
-		Solution s = new Solution();
+/*		Solution s = new Solution();
 		//int[][] nums = {{0,1,0,0}, {1,1,1,0}, {0,1,0,0}, {1,1,0,0}};
-		System.out.println(s.alphabetBoardPath("leet"));
+		System.out.println(s.alphabetBoardPath("leet"));*/
+		StackOfPlates obj = new StackOfPlates(2);
+ 		obj.push(1);
+		 obj.push(2);
+		obj.push(3);
+		System.out.println(obj.popAt(0));
+		System.out.println(obj.popAt(0));
+		System.out.println(obj.popAt(0));
 	}
 }
